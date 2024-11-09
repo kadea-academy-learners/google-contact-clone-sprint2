@@ -1,4 +1,4 @@
-import Contacts from "./components/contacts-page";
+import Contacts from "./pages/Contacts";
 
 export default function App() {
   return (
