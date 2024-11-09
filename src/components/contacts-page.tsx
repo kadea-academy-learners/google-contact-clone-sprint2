@@ -15,11 +15,25 @@ export type contactType = {
   phone: string
   label: string
 }
-export default function Component() {
+export default function Contacts() {
   const [contacts, setContacts] = useState<contactType[]>([])
-    const [showLabels, setShowLabels] = useState(false)
-    const [labels, setLabels] = useState<any[]>([])
-    const [newContact, setNewContact] = useState<contactType>({
+  const [showLabels, setShowLabels] = useState(false)
+  const [labels, setLabels] = useState<any[]>([])
+  const [newContact, setNewContact] = useState<contactType>({
+    firstName: '',
+    lastName: '',
+    company: '',
+    role: '',
+    email: '',
+    phone: '',
+    label: ''
+  })
+  const [newLabel, setNewLabel] = useState('')
+
+
+  const handleCreateContact = () => {
+    setContacts([...contacts, newContact])
+    setNewContact({
       firstName: '',
       lastName: '',
       company: '',
@@ -28,36 +42,22 @@ export default function Component() {
       phone: '',
       label: ''
     })
-    const [newLabel, setNewLabel] = useState('')
-  
-  
-    const handleCreateContact = () => {
-      setContacts([...contacts, newContact])
-      setNewContact({
-        firstName: '',
-        lastName: '',
-        company: '',
-        role: '',
-        email: '',
-        phone: '',
-        label: ''
-      })
+  }
+
+  const handleCreateLabel = () => {
+    if (newLabel.trim() !== '') {
+      setLabels([...labels, newLabel])
+      setNewLabel('')
     }
-  
-    const handleCreateLabel = () => {
-      if (newLabel.trim() !== '') {
-        setLabels([...labels, newLabel])
-        setNewLabel('')
-      }
-    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-    <Header />
-{/* Sidebar */}
+      <Header />
+      {/* Sidebar */}
       <div className="flex">
-    <aside className="w-64 p-4 border-r min-h-[calc(100vh-64px)]">
+        <aside className="w-64 p-4 border-r min-h-[calc(100vh-64px)]">
           <div className="space-y-2">
             <RadixDialog>
               <RadixDialogTrigger asChild>
@@ -223,27 +223,34 @@ export default function Component() {
           </div>
         </aside>
         {/* Main Content */}
-        <div className="min-h-screen bg-white">
-     
-     <div className="flex">
-       {/* Main Content */}
-       <main className="flex-1 p-4">
-         <h2 className="text-lg font-semibold text-gray-700">Contacts</h2>
-         {/* Display list of contacts */}
-         <ul>
-           {contacts.map((contact, index) => (
-             <li key={index} className="py-2">
-               <div>{contact.firstName} {contact.lastName}</div>
-               <div>{contact.email}</div>
-               <div>{contact.phone}</div>
-               <div>{contact.label}</div>
-             </li>
-           ))}
-         </ul>
-       </main>
-     </div>
-   </div>
-  
+        <div className="min-h-screen bg-white w-full">
+
+          <div className="flex">
+            <table className="table-auto w-full border-collapse border border-gray-300 rounded-lg shadow-md">
+              <thead>
+                <tr>
+                  <th className="bg-gray-100 border-b border-gray-300 py-3 px-4 text-left text-xs font-bold text-gray-600 uppercase">Nom</th>
+                  <th className="bg-gray-100 border-b border-gray-300 py-3 px-4 text-left text-xs font-bold text-gray-600 uppercase">Prénom</th>
+                  <th className="bg-gray-100 border-b border-gray-300 py-3 px-4 text-left text-xs font-bold text-gray-600 uppercase">Email</th>
+                  <th className="bg-gray-100 border-b border-gray-300 py-3 px-4 text-left text-xs font-bold text-gray-600 uppercase">Téléphone</th>
+                  <th className="bg-gray-100 border-b border-gray-300 py-3 px-4 text-left text-xs font-bold text-gray-600 uppercase">Libellé</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contacts.map((contact, index) => (
+                  <tr key={index} className="hover:bg-gray-100">
+                    <td className="border-b border-gray-300 py-3 px-4 text-left text-xs text-gray-600">{contact.lastName}</td>
+                    <td className="border-b border-gray-300 py-3 px-4 text-left text-xs text-gray-600">{contact.firstName}</td>
+                    <td className="border-b border-gray-300 py-3 px-4 text-left text-xs text-gray-600">{contact.email}</td>
+                    <td className="border-b border-gray-300 py-3 px-4 text-left text-xs text-gray-600">{contact.phone}</td>
+                    <td className="border-b border-gray-300 py-3 px-4 text-left text-xs text-gray-600">{contact.label}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </div>
   )

@@ -1,9 +1,9 @@
-import Component from "./components/contacts-page";
+import Contacts from "./components/contacts-page";
 
 export default function App() {
   return (
     <div >
-      <Component />
+      <Contacts />
       </div>
       )
     }
